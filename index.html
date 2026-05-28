@@ -689,9 +689,7 @@
       <h2>Discutons de ton projet, sans engagement.</h2>
       <p>15 minutes au téléphone pour comprendre ton activité et te proposer la formule qui te convient. Devis écrit envoyé sous 24h.</p>
 
-      <form id="contact-form" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" style="max-width:520px;margin:0 auto;display:flex;flex-direction:column;gap:12px;text-align:left">
-        <input type="hidden" name="form-name" value="contact">
-        <input type="hidden" name="bot-field" style="display:none">
+      <form id="contact-form" style="max-width:520px;margin:0 auto;display:flex;flex-direction:column;gap:12px;text-align:left">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
           <input required name="prenom" placeholder="Ton prénom" style="padding:14px 18px;border-radius:12px;background:rgba(255,255,255,0.04);border:1px solid var(--border-strong);color:var(--text);font:inherit;outline:none" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border-strong)'">
           <input required name="email" type="email" placeholder="Ton email" style="padding:14px 18px;border-radius:12px;background:rgba(255,255,255,0.04);border:1px solid var(--border-strong);color:var(--text);font:inherit;outline:none" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border-strong)'">
@@ -771,7 +769,7 @@
     });
   });
 
-  /* Netlify Forms — soumission AJAX avec affichage du message de succès */
+  /* FormSubmit.co — envoi email sans backend */
   const form = document.getElementById('contact-form');
   const success = document.getElementById('form-success');
   if (form) {
@@ -780,11 +778,19 @@
       const btn = form.querySelector('button[type="submit"]');
       btn.disabled = true;
       btn.innerHTML = 'Envoi en cours…';
-      fetch('/', {
+      const data = new FormData(form);
+      fetch('https://formsubmit.co/ajax/Weber.agenceweb@gmail.com', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(new FormData(form)).toString()
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          Prénom: data.get('prenom'),
+          Email: data.get('email'),
+          Projet: data.get('projet'),
+          _subject: 'Nouveau projet Weber — demande de devis',
+          _captcha: 'false'
+        })
       })
+      .then(r => r.json())
       .then(() => {
         form.style.display = 'none';
         success.style.display = 'block';
