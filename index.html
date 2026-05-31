@@ -7,7 +7,8 @@
 <meta name="description" content="Weber crée des sites web professionnels pour les commerces locaux. Livré en 7 jours, à partir de 490€."/>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap&display=swap" rel="stylesheet">
+<style>@font-face{font-display:swap}</style>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -33,7 +34,9 @@ html{scroll-behavior:smooth}
 body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 img,svg{display:block;max-width:100%}
 a{color:inherit;text-decoration:none}
-button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit;touch-action:manipulation}
+input,textarea,button,a{-webkit-tap-highlight-color:transparent}
+@media(max-width:600px){.orb{display:none}}
 
 /* ── Noise overlay ── */
 body::before{
@@ -68,16 +71,16 @@ nav{position:sticky;top:0;z-index:100;background:rgba(7,7,15,.7);backdrop-filter
 .nav-links a:hover{color:var(--text)}
 .nav-btn{padding:9px 20px;border-radius:999px;background:var(--surface2);border:1px solid var(--border2);font-size:13px;font-weight:500;transition:all .2s;white-space:nowrap}
 .nav-btn:hover{background:rgba(139,92,246,.15);border-color:rgba(139,92,246,.4)}
-.nav-burger{display:none;flex-direction:column;gap:5px;padding:6px;cursor:pointer}
+.nav-burger{display:none;flex-direction:column;gap:5px;padding:10px;cursor:pointer;min-width:44px;min-height:44px;align-items:center;justify-content:center}
 .nav-burger span{display:block;width:22px;height:2px;background:var(--muted);border-radius:2px;transition:all .3s}
 .mob-menu{display:none;flex-direction:column;gap:0;background:var(--bg2);border-bottom:1px solid var(--border);position:relative;z-index:99}
-.mob-menu a{padding:14px var(--px);font-size:15px;color:var(--muted);border-bottom:1px solid var(--border);transition:color .2s}
+.mob-menu a{padding:16px var(--px);font-size:16px;color:var(--muted);border-bottom:1px solid var(--border);transition:color .2s;min-height:52px;display:flex;align-items:center}
 .mob-menu a:hover{color:var(--text)}
 .mob-menu.open{display:flex}
 @media(max-width:760px){.nav-links{display:none}.nav-burger{display:flex}.nav-btn{display:none}}
 
 /* ── Buttons ── */
-.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 26px;border-radius:999px;font-size:15px;font-weight:600;letter-spacing:-.01em;transition:all .25s;white-space:nowrap;cursor:pointer}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 26px;border-radius:999px;font-size:15px;font-weight:600;letter-spacing:-.01em;transition:all .25s;white-space:nowrap;cursor:pointer;min-height:48px;touch-action:manipulation}
 .btn-primary{background:linear-gradient(135deg,#8b5cf6,#6366f1);color:#fff;box-shadow:0 8px 32px -8px rgba(139,92,246,.6),inset 0 1px 0 rgba(255,255,255,.2)}
 .btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 40px -8px rgba(139,92,246,.7),inset 0 1px 0 rgba(255,255,255,.25)}
 .btn-ghost{background:var(--surface);border:1px solid var(--border2);color:var(--text)}
@@ -265,8 +268,9 @@ footer{border-top:1px solid var(--border);padding:clamp(48px,5vw,72px) 0 32px;ba
 .foot-bot{padding-top:24px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;font-size:12px;color:var(--dim);font-family:'JetBrains Mono',monospace}
 
 /* ── Reveal ── */
-.rv{opacity:0;transform:translateY(20px);transition:opacity .75s ease,transform .75s cubic-bezier(.2,.8,.2,1)}
-.rv.in{opacity:1;transform:none}
+.rv{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.8,.2,1);will-change:transform,opacity}
+.rv.in{opacity:1;transform:none;will-change:auto}
+@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
 .rv:nth-child(2){transition-delay:.07s}
 .rv:nth-child(3){transition-delay:.14s}
 .rv:nth-child(4){transition-delay:.21s}
@@ -282,7 +286,7 @@ footer{border-top:1px solid var(--border);padding:clamp(48px,5vw,72px) 0 32px;ba
 <!-- ═══ NAV ═══ -->
 <nav>
   <div class="nav-inner">
-    <a href="#" class="logo">
+    <a href="" onclick="location.reload();return false;" class="logo">
       <div class="logo-w">W</div>
       Weber
     </a>
@@ -644,7 +648,7 @@ footer{border-top:1px solid var(--border);padding:clamp(48px,5vw,72px) 0 32px;ba
   <div class="wrap">
     <div class="foot-grid">
       <div class="foot-brand">
-        <a href="#" class="logo">
+        <a href="" onclick="location.reload();return false;" class="logo">
           <div class="logo-w">W</div>
           Weber
         </a>
