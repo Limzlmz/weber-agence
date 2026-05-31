@@ -1,636 +1,546 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Weber — Sites web pour commerçants locaux</title>
+<meta name="description" content="Weber crée des sites web professionnels pour les commerces locaux. Livré en 7 jours, à partir de 490€."/>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  /* ----- Reset & base ----- */
-  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
-  body{
-    font-family:'DM Sans',system-ui,sans-serif;
-    background:#0a0a0c;
-    color:#e9e9ef;
-    line-height:1.55;
-    -webkit-font-smoothing:antialiased;
-    overflow-x:hidden;
-  }
-  :root{
-    --bg:#0a0a0c;
-    --bg-2:#111114;
-    --surface:rgba(255,255,255,0.04);
-    --surface-2:rgba(255,255,255,0.06);
-    --border:rgba(255,255,255,0.08);
-    --border-strong:rgba(255,255,255,0.14);
-    --text:#ececf1;
-    --muted:#8a8a99;
-    --dim:#5e5e6e;
-    --accent:#8b5cf6;      /* violet électrique */
-    --accent-2:#a78bfa;
-    --accent-glow:rgba(139,92,246,0.35);
-    --radius-lg:24px;
-    --radius-md:14px;
-    --radius-sm:10px;
-    --pad-x:clamp(20px,5vw,80px);
-  }
-  img,svg{display:block;max-width:100%}
-  a{color:inherit;text-decoration:none}
-  button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+:root{
+  --bg:#07070f;
+  --bg2:#0e0e1a;
+  --bg3:#13131f;
+  --surface:rgba(255,255,255,0.04);
+  --surface2:rgba(255,255,255,0.07);
+  --border:rgba(255,255,255,0.07);
+  --border2:rgba(255,255,255,0.13);
+  --text:#f0f0f8;
+  --muted:#8888a8;
+  --dim:#55556a;
+  --accent:#8b5cf6;
+  --accent2:#a78bfa;
+  --accentglow:rgba(139,92,246,.4);
+  --r-xl:28px;
+  --r-lg:20px;
+  --r-md:14px;
+  --px:clamp(18px,5vw,80px);
+}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 
-  /* ----- Background ambient gradients ----- */
-  .ambient{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
-  .ambient::before,.ambient::after{
-    content:"";position:absolute;border-radius:50%;filter:blur(120px);opacity:.55;
-  }
-  .ambient::before{
-    width:60vw;height:60vw;left:-15vw;top:-20vw;
-    background:radial-gradient(circle, rgba(139,92,246,0.55), transparent 60%);
-  }
-  .ambient::after{
-    width:50vw;height:50vw;right:-15vw;top:30vh;
-    background:radial-gradient(circle, rgba(56,72,255,0.35), transparent 60%);
-    opacity:.45;
-  }
-  .grid-overlay{
-    position:fixed;inset:0;z-index:0;pointer-events:none;
-    background-image:
-      linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),
-      linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);
-    background-size:60px 60px;
-    mask-image:radial-gradient(ellipse at center top,black 0%,transparent 70%);
-    -webkit-mask-image:radial-gradient(ellipse at center top,black 0%,transparent 70%);
-  }
+/* ── Noise overlay ── */
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity:.025;
+}
 
-  /* ----- Container ----- */
-  .wrap{max-width:1280px;margin:0 auto;padding:0 var(--pad-x);position:relative;z-index:2}
+/* ── Orbs ── */
+.orb{position:fixed;border-radius:50%;filter:blur(100px);pointer-events:none;z-index:0}
+.orb1{width:60vw;height:60vw;top:-20vw;left:-10vw;background:radial-gradient(circle,rgba(139,92,246,.5),transparent 65%)}
+.orb2{width:45vw;height:45vw;bottom:-10vw;right:-10vw;background:radial-gradient(circle,rgba(99,102,241,.35),transparent 65%)}
+.orb3{width:30vw;height:30vw;top:50vh;left:40vw;background:radial-gradient(circle,rgba(168,85,247,.2),transparent 65%)}
 
-  /* ----- Nav ----- */
-  nav{
-    position:sticky;top:0;z-index:50;
-    backdrop-filter:blur(14px) saturate(140%);
-    -webkit-backdrop-filter:blur(14px) saturate(140%);
-    background:rgba(10,10,12,0.6);
-    border-bottom:1px solid var(--border);
-  }
-  .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:18px var(--pad-x);max-width:1280px;margin:0 auto}
-  .logo{display:flex;align-items:center;gap:10px;font-weight:600;font-size:18px;letter-spacing:-0.01em}
-  .logo-mark{
-    width:30px;height:30px;border-radius:8px;
-    background:linear-gradient(135deg,var(--accent) 0%,#5b8def 100%);
-    box-shadow:0 0 24px var(--accent-glow);
-    display:grid;place-items:center;
-    font-family:'DM Sans',sans-serif;
-    font-weight:700;font-size:17px;color:#fff;
-    letter-spacing:-0.04em;
-    line-height:1;
-    text-shadow:0 1px 0 rgba(0,0,0,0.15);
-  }
-  .nav-links{display:flex;gap:32px;font-size:14px;color:var(--muted)}
-  .nav-links a{transition:color .2s}
-  .nav-links a:hover{color:var(--text)}
-  .nav-cta{
-    padding:10px 18px;border-radius:999px;
-    background:var(--surface);border:1px solid var(--border-strong);
-    font-size:14px;font-weight:500;transition:all .2s;
-  }
-  .nav-cta:hover{background:var(--surface-2);border-color:#fff3}
-  @media (max-width:760px){.nav-links{display:none}}
+/* ── Wrap ── */
+.wrap{max-width:1240px;margin:0 auto;padding:0 var(--px);position:relative;z-index:2}
 
-  /* ----- Buttons ----- */
-  .btn{
-    display:inline-flex;align-items:center;gap:10px;
-    padding:14px 24px;border-radius:999px;font-size:15px;font-weight:500;
-    transition:transform .2s, box-shadow .2s, background .2s;
-    white-space:nowrap;
-  }
-  .btn-primary{
-    background:linear-gradient(135deg,var(--accent) 0%,#7c3aed 100%);
-    color:#fff;
-    box-shadow:0 10px 40px -10px var(--accent-glow), inset 0 1px 0 rgba(255,255,255,0.18);
-  }
-  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 16px 50px -10px var(--accent-glow), inset 0 1px 0 rgba(255,255,255,0.25)}
-  .btn-ghost{
-    background:var(--surface);
-    border:1px solid var(--border-strong);
-    color:var(--text);
-  }
-  .btn-ghost:hover{background:var(--surface-2)}
-  .btn .arr{transition:transform .2s}
-  .btn:hover .arr{transform:translateX(3px)}
+/* ── NAV ── */
+nav{position:sticky;top:0;z-index:100;background:rgba(7,7,15,.7);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid var(--border)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px;padding:0 var(--px);max-width:1240px;margin:0 auto}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px;letter-spacing:-.02em}
+.logo-w{
+  width:34px;height:34px;border-radius:10px;
+  background:linear-gradient(135deg,#8b5cf6,#6366f1);
+  box-shadow:0 0 20px rgba(139,92,246,.5);
+  display:grid;place-items:center;
+  font-size:18px;font-weight:800;color:#fff;letter-spacing:-.05em;line-height:1;
+  flex-shrink:0;
+}
+.nav-links{display:flex;gap:28px;font-size:14px;color:var(--muted)}
+.nav-links a{transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+.nav-btn{padding:9px 20px;border-radius:999px;background:var(--surface2);border:1px solid var(--border2);font-size:13px;font-weight:500;transition:all .2s;white-space:nowrap}
+.nav-btn:hover{background:rgba(139,92,246,.15);border-color:rgba(139,92,246,.4)}
+.nav-burger{display:none;flex-direction:column;gap:5px;padding:6px;cursor:pointer}
+.nav-burger span{display:block;width:22px;height:2px;background:var(--muted);border-radius:2px;transition:all .3s}
+.mob-menu{display:none;flex-direction:column;gap:0;background:var(--bg2);border-bottom:1px solid var(--border);position:relative;z-index:99}
+.mob-menu a{padding:14px var(--px);font-size:15px;color:var(--muted);border-bottom:1px solid var(--border);transition:color .2s}
+.mob-menu a:hover{color:var(--text)}
+.mob-menu.open{display:flex}
+@media(max-width:760px){.nav-links{display:none}.nav-burger{display:flex}.nav-btn{display:none}}
 
-  /* ----- Pill / Eyebrow ----- */
-  .eyebrow{
-    display:inline-flex;align-items:center;gap:8px;
-    padding:6px 14px;border-radius:999px;
-    background:var(--surface);border:1px solid var(--border);
-    font-size:13px;color:var(--muted);font-family:'DM Mono',monospace;
-    letter-spacing:0.02em;
-  }
-  .eyebrow .dot{
-    width:6px;height:6px;border-radius:50%;
-    background:var(--accent);box-shadow:0 0 12px var(--accent);
-    animation:pulse 2s ease-in-out infinite;
-  }
-  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+/* ── Buttons ── */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 26px;border-radius:999px;font-size:15px;font-weight:600;letter-spacing:-.01em;transition:all .25s;white-space:nowrap;cursor:pointer}
+.btn-primary{background:linear-gradient(135deg,#8b5cf6,#6366f1);color:#fff;box-shadow:0 8px 32px -8px rgba(139,92,246,.6),inset 0 1px 0 rgba(255,255,255,.2)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 40px -8px rgba(139,92,246,.7),inset 0 1px 0 rgba(255,255,255,.25)}
+.btn-ghost{background:var(--surface);border:1px solid var(--border2);color:var(--text)}
+.btn-ghost:hover{background:var(--surface2)}
+.arr{transition:transform .2s}
+.btn:hover .arr{transform:translateX(3px)}
 
-  /* ----- Hero ----- */
-  .hero{padding:100px 0 140px;position:relative;z-index:2}
-  .hero h1{
-    font-size:clamp(40px,7vw,88px);
-    line-height:1.02;letter-spacing:-0.035em;font-weight:600;
-    max-width:14ch;
-    margin:24px 0 28px;
-    text-wrap:balance;
-  }
-  .hero h1 .grad{
-    background:linear-gradient(120deg,#fff 20%,#a78bfa 50%,#7c3aed 90%);
-    -webkit-background-clip:text;background-clip:text;
-    -webkit-text-fill-color:transparent;color:transparent;
-  }
-  .hero p.lead{
-    font-size:clamp(17px,1.5vw,20px);color:var(--muted);
-    max-width:560px;margin-bottom:40px;text-wrap:pretty;
-  }
-  .hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:64px}
-  .hero-meta{
-    display:flex;flex-wrap:wrap;gap:36px;align-items:center;
-    padding-top:32px;border-top:1px solid var(--border);
-  }
-  .hero-meta .stat{display:flex;flex-direction:column;gap:2px}
-  .hero-meta .stat strong{font-size:22px;font-weight:600;letter-spacing:-0.01em}
-  .hero-meta .stat span{font-size:13px;color:var(--muted);font-family:'DM Mono',monospace}
+/* ── Eyebrow ── */
+.tag{display:inline-flex;align-items:center;gap:7px;padding:5px 12px;border-radius:999px;border:1px solid var(--border2);background:var(--surface);font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace;letter-spacing:.04em}
+.tag .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent);animation:blink 2s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
 
-  /* ----- Section base ----- */
-  section{padding:120px 0;position:relative;z-index:2}
-  .section-head{max-width:680px;margin-bottom:64px}
-  .section-head h2{
-    font-size:clamp(32px,4.5vw,52px);
-    line-height:1.05;letter-spacing:-0.025em;font-weight:600;
-    margin:18px 0 16px;text-wrap:balance;
-  }
-  .section-head p{color:var(--muted);font-size:17px;text-wrap:pretty}
+/* ── HERO ── */
+.hero{padding:clamp(72px,10vw,140px) 0 clamp(64px,8vw,120px);position:relative;z-index:2}
+.hero-inner{display:grid;grid-template-columns:1fr 420px;gap:64px;align-items:center}
+@media(max-width:940px){.hero-inner{grid-template-columns:1fr;gap:48px}}
+.hero-content{}
+.hero h1{font-size:clamp(38px,6vw,76px);line-height:1.04;letter-spacing:-.035em;font-weight:800;margin:20px 0 24px;text-wrap:balance}
+.hero h1 .g{background:linear-gradient(120deg,#fff 10%,#a78bfa 45%,#8b5cf6 80%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hero-sub{font-size:clamp(16px,1.4vw,19px);color:var(--muted);max-width:520px;margin-bottom:36px;line-height:1.65;text-wrap:pretty}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:52px}
+.hero-stats{display:flex;gap:32px;flex-wrap:wrap;padding-top:32px;border-top:1px solid var(--border)}
+.stat{display:flex;flex-direction:column;gap:2px}
+.stat strong{font-size:clamp(18px,2vw,24px);font-weight:700;letter-spacing:-.02em}
+.stat span{font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace}
 
-  /* ----- Problem/Solution ----- */
-  .problem{
-    background:linear-gradient(180deg,transparent,rgba(139,92,246,0.04) 50%,transparent);
-  }
-  .problem-card{
-    display:grid;grid-template-columns:1fr 1fr;gap:0;
-    border:1px solid var(--border);border-radius:var(--radius-lg);
-    overflow:hidden;background:var(--surface);
-  }
-  .problem-side{padding:56px 48px;position:relative}
-  .problem-side + .problem-side{border-left:1px solid var(--border)}
-  .problem-tag{
-    display:inline-block;font-family:'DM Mono',monospace;font-size:12px;
-    color:var(--dim);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:20px;
-  }
-  .problem-side h3{
-    font-size:clamp(24px,2.5vw,30px);line-height:1.2;letter-spacing:-0.02em;
-    font-weight:500;margin-bottom:16px;text-wrap:balance;
-  }
-  .problem-side p{color:var(--muted);font-size:15px}
-  .problem-side.solution{background:linear-gradient(135deg,rgba(139,92,246,0.08),transparent)}
-  .problem-side.solution .problem-tag{color:var(--accent-2)}
-  @media (max-width:720px){
-    .problem-card{grid-template-columns:1fr}
-    .problem-side + .problem-side{border-left:0;border-top:1px solid var(--border)}
-  }
+/* ── Hero card ── */
+.hero-card{
+  background:linear-gradient(145deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
+  border:1px solid var(--border2);border-radius:var(--r-xl);
+  padding:32px;backdrop-filter:blur(20px);
+  position:relative;overflow:hidden;
+}
+.hero-card::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at top,rgba(139,92,246,.12),transparent 60%);pointer-events:none}
+.hero-card-title{font-size:13px;color:var(--muted);font-family:'JetBrains Mono',monospace;letter-spacing:.05em;text-transform:uppercase;margin-bottom:20px}
+.process-step{display:flex;align-items:flex-start;gap:14px;padding:14px 0;border-bottom:1px solid var(--border)}
+.process-step:last-child{border-bottom:0;padding-bottom:0}
+.step-num{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,rgba(139,92,246,.3),rgba(99,102,241,.2));border:1px solid rgba(139,92,246,.3);display:grid;place-items:center;font-size:11px;font-weight:700;color:var(--accent2);flex-shrink:0;font-family:'JetBrains Mono',monospace}
+.step-info strong{font-size:14px;font-weight:600;display:block;margin-bottom:2px}
+.step-info span{font-size:13px;color:var(--muted)}
+.hero-card-foot{margin-top:20px;padding-top:16px;border-top:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.live-dot{width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 10px rgba(34,197,94,.6);animation:blink 1.5s ease-in-out infinite;flex-shrink:0}
+.hero-card-foot span{font-size:13px;color:var(--muted)}
+@media(max-width:940px){.hero-card{display:none}}
 
-  /* ----- Offers ----- */
-  .offers-grid{
-    display:grid;grid-template-columns:repeat(3,1fr);gap:20px;
-  }
-  @media (max-width:980px){.offers-grid{grid-template-columns:1fr}}
-  .offer{
-    position:relative;padding:36px 32px 32px;
-    border:1px solid var(--border);border-radius:var(--radius-lg);
-    background:linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.01));
-    backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-    transition:transform .3s, border-color .3s, background .3s;
-    overflow:hidden;
-  }
-  .offer::before{
-    content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
-    background:radial-gradient(600px circle at var(--mx,50%) 0%,rgba(139,92,246,0.18),transparent 40%);
-    opacity:0;transition:opacity .3s;
-  }
-  .offer:hover{transform:translateY(-4px);border-color:var(--border-strong)}
-  .offer:hover::before{opacity:1}
-  .offer.featured{
-    border-color:rgba(139,92,246,0.4);
-    background:linear-gradient(180deg,rgba(139,92,246,0.08),rgba(139,92,246,0.02));
-  }
-  .offer-badge{
-    position:absolute;top:20px;right:20px;
-    font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.08em;
-    text-transform:uppercase;color:var(--accent-2);
-    padding:5px 10px;border:1px solid rgba(139,92,246,0.3);border-radius:999px;
-    background:rgba(139,92,246,0.08);
-  }
-  .offer-icon{
-    width:56px;height:56px;border-radius:14px;
-    background:linear-gradient(135deg,rgba(255,255,255,0.08),rgba(255,255,255,0.02));
-    border:1px solid var(--border);
-    display:grid;place-items:center;margin-bottom:28px;
-    color:var(--accent-2);
-  }
-  .offer.featured .offer-icon{
-    background:linear-gradient(135deg,rgba(139,92,246,0.25),rgba(139,92,246,0.05));
-    border-color:rgba(139,92,246,0.3);
-  }
-  .offer h3{font-size:24px;font-weight:600;letter-spacing:-0.02em;margin-bottom:10px}
-  .offer .price{
-    font-family:'DM Mono',monospace;font-size:13px;color:var(--muted);
-    margin-bottom:20px;
-  }
-  .offer .price strong{color:var(--text);font-weight:500}
-  .offer > p{color:var(--muted);font-size:15px;margin-bottom:24px;line-height:1.6}
-  .offer ul{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:32px}
-  .offer li{
-    display:flex;align-items:flex-start;gap:10px;
-    font-size:14px;color:#cfcfd9;
-  }
-  .offer li svg{flex:none;margin-top:3px;color:var(--accent-2)}
-  .offer .offer-cta{
-    display:flex;align-items:center;justify-content:space-between;
-    padding-top:24px;border-top:1px solid var(--border);
-    font-size:14px;color:var(--text);font-weight:500;
-  }
-  .offer .offer-cta .arr{color:var(--accent-2);transition:transform .2s}
-  .offer:hover .offer-cta .arr{transform:translateX(4px)}
+/* ── Section base ── */
+section{padding:clamp(72px,8vw,120px) 0;position:relative;z-index:2}
+.sec-head{margin-bottom:56px}
+.sec-head h2{font-size:clamp(28px,4vw,48px);line-height:1.1;letter-spacing:-.025em;font-weight:700;margin:14px 0 14px;text-wrap:balance}
+.sec-head p{color:var(--muted);font-size:clamp(15px,1.2vw,17px);max-width:540px;text-wrap:pretty}
+.sec-head.center{text-align:center}
+.sec-head.center p{margin-inline:auto}
 
-  /* ----- Why us ----- */
-  .why-grid{
-    display:grid;grid-template-columns:repeat(4,1fr);gap:20px;
-  }
-  @media (max-width:980px){.why-grid{grid-template-columns:repeat(2,1fr)}}
-  @media (max-width:560px){.why-grid{grid-template-columns:1fr}}
-  .why-card{
-    padding:32px 28px;
-    border:1px solid var(--border);border-radius:var(--radius-lg);
-    background:var(--surface);
-    transition:border-color .3s;
-  }
-  .why-card:hover{border-color:var(--border-strong)}
-  .why-num{
-    font-family:'DM Mono',monospace;font-size:13px;color:var(--accent-2);
-    margin-bottom:24px;letter-spacing:0.05em;
-  }
-  .why-card h4{font-size:18px;font-weight:600;letter-spacing:-0.01em;margin-bottom:10px}
-  .why-card p{color:var(--muted);font-size:14px;line-height:1.6}
+/* ── Problem / Solution ── */
+.prob-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;border-radius:var(--r-xl);overflow:hidden;border:1px solid var(--border)}
+@media(max-width:680px){.prob-grid{grid-template-columns:1fr}}
+.prob-side{padding:clamp(32px,4vw,56px) clamp(24px,4vw,52px);background:var(--bg2)}
+.prob-side.sol{background:linear-gradient(145deg,rgba(139,92,246,.1),rgba(99,102,241,.05));position:relative}
+.prob-side.sol::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at top right,rgba(139,92,246,.15),transparent 50%);pointer-events:none}
+.prob-label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-bottom:16px}
+.prob-side.sol .prob-label{color:var(--accent2)}
+.prob-side h3{font-size:clamp(20px,2.5vw,28px);font-weight:700;letter-spacing:-.02em;line-height:1.25;margin-bottom:12px;text-wrap:balance}
+.prob-side p{color:var(--muted);font-size:15px;line-height:1.65}
 
-  /* ----- Testimonials ----- */
-  .testimonials-grid{
-    display:grid;grid-template-columns:repeat(3,1fr);gap:20px;
-  }
-  @media (max-width:980px){.testimonials-grid{grid-template-columns:1fr}}
-  .testimonial{
-    padding:36px 32px;
-    border:1px solid var(--border);border-radius:var(--radius-lg);
-    background:linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.01));
-    backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-    display:flex;flex-direction:column;gap:24px;
-  }
-  .stars{display:flex;gap:3px;color:var(--accent-2)}
-  .testimonial blockquote{
-    font-size:17px;line-height:1.55;color:#dcdce4;
-    letter-spacing:-0.005em;flex:1;text-wrap:pretty;
-  }
-  .testimonial blockquote::before{content:"« ";color:var(--muted)}
-  .testimonial blockquote::after{content:" »";color:var(--muted)}
-  .author{display:flex;align-items:center;gap:14px;padding-top:20px;border-top:1px solid var(--border)}
-  .avatar{
-    width:42px;height:42px;border-radius:50%;
-    background:linear-gradient(135deg,var(--accent),#5b8def);
-    display:grid;place-items:center;font-size:15px;font-weight:600;color:#fff;
-    flex:none;
-  }
-  .author-info{display:flex;flex-direction:column}
-  .author-info strong{font-size:14px;font-weight:600}
-  .author-info span{font-size:13px;color:var(--muted)}
+/* ── Services bento ── */
+.bento{display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:auto;gap:16px}
+@media(max-width:900px){.bento{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.bento{grid-template-columns:1fr}}
+.bento-card{
+  border:1px solid var(--border);border-radius:var(--r-xl);
+  background:linear-gradient(145deg,rgba(255,255,255,.04),rgba(255,255,255,.015));
+  padding:32px 28px;position:relative;overflow:hidden;
+  transition:border-color .3s,transform .3s;
+  cursor:default;
+}
+.bento-card::after{
+  content:"";position:absolute;inset:0;border-radius:inherit;
+  background:radial-gradient(500px circle at var(--mx,50%) var(--my,0%), rgba(139,92,246,.15),transparent 40%);
+  opacity:0;transition:opacity .35s;pointer-events:none;
+}
+.bento-card:hover{border-color:var(--border2);transform:translateY(-3px)}
+.bento-card:hover::after{opacity:1}
+.bento-card.featured{border-color:rgba(139,92,246,.35);background:linear-gradient(145deg,rgba(139,92,246,.1),rgba(99,102,241,.05))}
+.bento-card.wide{grid-column:span 2}
+@media(max-width:900px){.bento-card.wide{grid-column:span 1}}
+.card-icon{width:48px;height:48px;border-radius:12px;border:1px solid var(--border2);background:var(--surface2);display:grid;place-items:center;margin-bottom:22px;color:var(--accent2)}
+.bento-card.featured .card-icon{background:rgba(139,92,246,.15);border-color:rgba(139,92,246,.3)}
+.card-badge{position:absolute;top:18px;right:18px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent2);padding:4px 9px;border:1px solid rgba(139,92,246,.3);border-radius:999px;background:rgba(139,92,246,.08)}
+.bento-card h3{font-size:20px;font-weight:700;letter-spacing:-.015em;margin-bottom:8px}
+.bento-card .price{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);margin-bottom:14px}
+.bento-card .price strong{color:var(--accent2)}
+.bento-card > p{color:var(--muted);font-size:14px;line-height:1.65;margin-bottom:20px}
+.feats{list-style:none;display:flex;flex-direction:column;gap:8px;margin-bottom:24px}
+.feats li{display:flex;align-items:flex-start;gap:9px;font-size:13px;color:#ccccd8}
+.feats li svg{flex-shrink:0;margin-top:3px;color:var(--accent2)}
+.card-link{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--accent2);padding-top:18px;border-top:1px solid var(--border)}
+.card-link .arr{transition:transform .2s}
+.bento-card:hover .card-link .arr{transform:translateX(4px)}
 
-  /* ----- FAQ ----- */
-  .faq-list{max-width:840px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
-  .faq-item{
-    border:1px solid var(--border);border-radius:var(--radius-md);
-    background:var(--surface);overflow:hidden;
-    transition:border-color .2s, background .2s;
-  }
-  .faq-item[open]{border-color:var(--border-strong);background:var(--surface-2)}
-  .faq-item summary{
-    padding:22px 28px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;
-    font-size:17px;font-weight:500;letter-spacing:-0.01em;list-style:none;gap:24px;
-  }
-  .faq-item summary::-webkit-details-marker{display:none}
-  .faq-item summary .plus{
-    width:24px;height:24px;border-radius:50%;border:1px solid var(--border-strong);
-    display:grid;place-items:center;flex:none;transition:transform .3s, background .2s;
-    color:var(--muted);
-  }
-  .faq-item[open] summary .plus{transform:rotate(45deg);background:var(--accent);border-color:var(--accent);color:#fff}
-  .faq-content{padding:0 28px 24px;color:var(--muted);font-size:15px;line-height:1.65;max-width:62ch}
+/* ── Why us ── */
+.why-bg{background:var(--bg2);border-radius:var(--r-xl);padding:clamp(40px,5vw,72px) clamp(28px,5vw,64px)}
+.why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+@media(max-width:900px){.why-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.why-grid{grid-template-columns:1fr}}
+.why-item{}
+.why-n{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent2);letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.why-n::before{content:"";display:block;width:20px;height:1px;background:var(--accent2)}
+.why-item h4{font-size:16px;font-weight:700;letter-spacing:-.01em;margin-bottom:8px}
+.why-item p{color:var(--muted);font-size:13px;line-height:1.65}
 
-  /* ----- Final CTA ----- */
-  .final-cta{padding:80px 0 120px}
-  .final-cta-card{
-    position:relative;
-    padding:80px 60px;border-radius:var(--radius-lg);
-    background:
-      radial-gradient(800px circle at 80% 20%,rgba(139,92,246,0.25),transparent 50%),
-      radial-gradient(600px circle at 20% 80%,rgba(91,141,239,0.18),transparent 50%),
-      #0f0f12;
-    border:1px solid var(--border-strong);
-    text-align:center;
-    overflow:hidden;
-  }
-  .final-cta-card::before{
-    content:"";position:absolute;inset:0;
-    background-image:
-      linear-gradient(rgba(255,255,255,0.04) 1px,transparent 1px),
-      linear-gradient(90deg,rgba(255,255,255,0.04) 1px,transparent 1px);
-    background-size:40px 40px;
-    mask-image:radial-gradient(ellipse at center,transparent 30%,black 100%);
-    -webkit-mask-image:radial-gradient(ellipse at center,transparent 30%,black 100%);
-    pointer-events:none;
-  }
-  .final-cta-card > *{position:relative;z-index:2}
-  .final-cta-card h2{
-    font-size:clamp(32px,5vw,56px);line-height:1.05;letter-spacing:-0.025em;
-    font-weight:600;margin:18px 0 18px;max-width:18ch;margin-inline:auto;text-wrap:balance;
-  }
-  .final-cta-card p{color:var(--muted);font-size:18px;max-width:50ch;margin:0 auto 36px;text-wrap:pretty}
+/* ── Testimonials ── */
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:900px){.testi-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.testi-grid{grid-template-columns:1fr}}
+.testi{
+  border:1px solid var(--border);border-radius:var(--r-xl);
+  background:linear-gradient(145deg,rgba(255,255,255,.04),rgba(255,255,255,.01));
+  padding:28px 24px;display:flex;flex-direction:column;gap:20px;
+}
+.stars{display:flex;gap:2px;color:var(--accent2)}
+.testi blockquote{font-size:15px;line-height:1.65;color:#d8d8e8;flex:1;text-wrap:pretty}
+.testi blockquote::before{content:'"';color:var(--muted)}
+.testi blockquote::after{content:'"';color:var(--muted)}
+.testi-author{display:flex;align-items:center;gap:12px;padding-top:16px;border-top:1px solid var(--border)}
+.avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#6366f1);display:grid;place-items:center;font-size:14px;font-weight:700;color:#fff;flex-shrink:0}
+.author-name{font-size:13px;font-weight:600;display:block}
+.author-role{font-size:12px;color:var(--muted)}
 
-  /* ----- Footer ----- */
-  footer{
-    border-top:1px solid var(--border);
-    padding:60px 0 32px;
-    background:rgba(0,0,0,0.3);
-  }
-  .footer-grid{
-    display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px;
-  }
-  @media (max-width:760px){.footer-grid{grid-template-columns:1fr 1fr;gap:32px}}
-  .footer-brand p{color:var(--muted);font-size:14px;margin-top:14px;max-width:30ch}
-  .footer-col h5{
-    font-size:13px;font-family:'DM Mono',monospace;text-transform:uppercase;
-    color:var(--dim);letter-spacing:0.08em;margin-bottom:18px;font-weight:500;
-  }
-  .footer-col ul{list-style:none;display:flex;flex-direction:column;gap:10px}
-  .footer-col a{font-size:14px;color:var(--muted);transition:color .2s}
-  .footer-col a:hover{color:var(--text)}
-  .footer-bot{
-    padding-top:28px;border-top:1px solid var(--border);
-    display:flex;justify-content:space-between;align-items:center;
-    font-size:13px;color:var(--dim);flex-wrap:wrap;gap:12px;
-    font-family:'DM Mono',monospace;
-  }
+/* ── FAQ ── */
+.faq-wrap{max-width:780px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
+.faq{border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;transition:border-color .2s}
+.faq[open]{border-color:var(--border2)}
+.faq summary{padding:20px 24px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:20px;font-size:16px;font-weight:600;letter-spacing:-.01em;list-style:none}
+.faq summary::-webkit-details-marker{display:none}
+.faq-plus{width:22px;height:22px;border-radius:50%;border:1px solid var(--border2);display:grid;place-items:center;flex-shrink:0;transition:transform .3s,background .2s,border-color .2s;color:var(--muted)}
+.faq[open] .faq-plus{transform:rotate(45deg);background:var(--accent);border-color:var(--accent);color:#fff}
+.faq-body{padding:0 24px 20px;color:var(--muted);font-size:14px;line-height:1.7;max-width:58ch}
 
-  /* ----- Reveal animations ----- */
-  .reveal{opacity:0;transform:translateY(24px);transition:opacity .8s ease, transform .8s cubic-bezier(.2,.7,.2,1)}
-  .reveal.in{opacity:1;transform:none}
-  .reveal:nth-child(2){transition-delay:.08s}
-  .reveal:nth-child(3){transition-delay:.16s}
-  .reveal:nth-child(4){transition-delay:.24s}
+/* ── Contact / Final CTA ── */
+.cta-card{
+  border-radius:var(--r-xl);
+  background:linear-gradient(145deg,var(--bg2),var(--bg3));
+  border:1px solid var(--border2);
+  overflow:hidden;position:relative;
+}
+.cta-card::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 80% 20%,rgba(139,92,246,.2),transparent 50%),radial-gradient(ellipse at 20% 80%,rgba(99,102,241,.12),transparent 50%);pointer-events:none}
+.cta-inner{display:grid;grid-template-columns:1fr 1fr;gap:0;position:relative;z-index:2}
+@media(max-width:800px){.cta-inner{grid-template-columns:1fr}}
+.cta-left{padding:clamp(36px,5vw,64px) clamp(28px,4vw,56px);border-right:1px solid var(--border)}
+@media(max-width:800px){.cta-left{border-right:0;border-bottom:1px solid var(--border)}}
+.cta-left h2{font-size:clamp(26px,3.5vw,40px);font-weight:800;letter-spacing:-.025em;line-height:1.15;margin:14px 0 16px;text-wrap:balance}
+.cta-left p{color:var(--muted);font-size:15px;line-height:1.65;margin-bottom:28px}
+.cta-info{display:flex;flex-direction:column;gap:12px}
+.cta-info-item{display:flex;align-items:center;gap:12px;font-size:14px;color:var(--muted)}
+.cta-info-item svg{color:var(--accent2);flex-shrink:0}
+.cta-right{padding:clamp(36px,5vw,64px) clamp(28px,4vw,56px)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:480px){.form-row{grid-template-columns:1fr}}
+.field{display:flex;flex-direction:column;gap:7px;margin-bottom:14px}
+.field label{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;font-family:'JetBrains Mono',monospace}
+.field input,.field textarea{
+  padding:13px 16px;border-radius:var(--r-md);
+  background:rgba(255,255,255,.04);border:1px solid var(--border2);
+  color:var(--text);font:inherit;outline:none;
+  transition:border-color .2s,background .2s;font-size:14px;
+}
+.field input:focus,.field textarea:focus{border-color:var(--accent);background:rgba(139,92,246,.05)}
+.field textarea{resize:vertical;min-height:100px}
+.form-submit{width:100%;justify-content:center;margin-top:6px;font-size:15px;padding:15px}
+.form-success{display:none;padding:40px 32px;text-align:center}
+.form-success .check{width:56px;height:56px;border-radius:50%;background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.3);display:grid;place-items:center;margin:0 auto 16px;color:var(--accent2)}
+.form-success h3{font-size:20px;font-weight:700;margin-bottom:8px}
+.form-success p{color:var(--muted);font-size:14px}
 
-  /* ----- Form (visual only in final CTA expanded? not needed; spec says formulaire de contact visuel; we keep in final CTA) ----- */
+/* ── Footer ── */
+footer{border-top:1px solid var(--border);padding:clamp(48px,5vw,72px) 0 32px;background:rgba(0,0,0,.2);position:relative;z-index:2}
+.foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px}
+@media(max-width:760px){.foot-grid{grid-template-columns:1fr 1fr;gap:32px}}
+@media(max-width:440px){.foot-grid{grid-template-columns:1fr}}
+.foot-brand p{color:var(--muted);font-size:13px;margin-top:12px;max-width:28ch;line-height:1.65}
+.foot-col h5{font-size:11px;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.1em;color:var(--dim);margin-bottom:16px;font-weight:500}
+.foot-col ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+.foot-col a{font-size:13px;color:var(--muted);transition:color .2s}
+.foot-col a:hover{color:var(--text)}
+.foot-bot{padding-top:24px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;font-size:12px;color:var(--dim);font-family:'JetBrains Mono',monospace}
+
+/* ── Reveal ── */
+.rv{opacity:0;transform:translateY(20px);transition:opacity .75s ease,transform .75s cubic-bezier(.2,.8,.2,1)}
+.rv.in{opacity:1;transform:none}
+.rv:nth-child(2){transition-delay:.07s}
+.rv:nth-child(3){transition-delay:.14s}
+.rv:nth-child(4){transition-delay:.21s}
+.rv:nth-child(5){transition-delay:.28s}
 </style>
 </head>
-<body style="font-size: 16px">
+<body>
 
-<div class="ambient"></div>
-<div class="grid-overlay"></div>
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
 
-<!-- ====== NAV ====== -->
+<!-- ═══ NAV ═══ -->
 <nav>
   <div class="nav-inner">
     <a href="#" class="logo">
-      <span class="logo-mark">W</span>
-      <span>Weber</span>
+      <div class="logo-w">W</div>
+      Weber
     </a>
     <div class="nav-links">
-      <a href="#offres">Nos offres</a>
+      <a href="#offres">Offres</a>
       <a href="#pourquoi">Pourquoi nous</a>
-      <a href="#temoignages">Témoignages</a>
+      <a href="#avis">Avis</a>
       <a href="#faq">FAQ</a>
     </div>
-    <a href="#contact" class="nav-cta">Devis gratuit</a>
+    <a href="#contact" class="nav-btn">Devis gratuit →</a>
+    <div class="nav-burger" id="burger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+  <div class="mob-menu" id="mobMenu">
+    <a href="#offres" onclick="toggleMenu()">Nos offres</a>
+    <a href="#pourquoi" onclick="toggleMenu()">Pourquoi nous</a>
+    <a href="#avis" onclick="toggleMenu()">Avis clients</a>
+    <a href="#faq" onclick="toggleMenu()">FAQ</a>
+    <a href="#contact" onclick="toggleMenu()" style="color:var(--accent2);font-weight:600">Devis gratuit →</a>
   </div>
 </nav>
 
-<!-- ====== HERO ====== -->
+<!-- ═══ HERO ═══ -->
 <header class="hero">
   <div class="wrap">
-    <span class="eyebrow reveal"><span class="dot"></span>Sites web pour commerces locaux</span>
-    <h1 class="reveal">Un site qui te ressemble. <span class="grad">Des clients qui te trouvent.</span></h1>
-    <p class="lead reveal">On crée des sites simples, beaux et efficaces pour les commerçants, artisans et restaurateurs. Pas de jargon, pas de mauvaise surprise — juste un site qui travaille pour toi, jour et nuit.</p>
-    <div class="hero-actions reveal">
-      <a href="#contact" class="btn btn-primary">Obtenir un devis gratuit <span class="arr">→</span></a>
-      <a href="#offres" class="btn btn-ghost">Voir nos offres</a>
-    </div>
-    <div class="hero-meta reveal">
-      <div class="stat">
-        <strong>7 jours</strong>
-        <span>délai moyen</span>
+    <div class="hero-inner">
+      <div class="hero-content">
+        <span class="tag rv"><span class="dot"></span>Agence web locale</span>
+        <h1 class="rv">Ton commerce mérite un site <span class="g">qui convertit.</span></h1>
+        <p class="hero-sub rv">On crée des sites web professionnels pour les commerçants, artisans et restaurateurs. Livré en 7 jours, sans jargon, sans mauvaise surprise.</p>
+        <div class="hero-actions rv">
+          <a href="#contact" class="btn btn-primary">Obtenir un devis gratuit <span class="arr">→</span></a>
+          <a href="#offres" class="btn btn-ghost">Voir nos offres</a>
+        </div>
+        <div class="hero-stats rv">
+          <div class="stat"><strong>7 jours</strong><span>délai moyen</span></div>
+          <div class="stat"><strong>490€</strong><span>à partir de</span></div>
+          <div class="stat"><strong>+40</strong><span>commerces lancés</span></div>
+          <div class="stat"><strong>4,9/5</strong><span>satisfaction</span></div>
+        </div>
       </div>
-      <div class="stat">
-        <strong>À partir de 490€</strong>
-        <span>site clé en main</span>
-      </div>
-      <div class="stat">
-        <strong>+40 commerces</strong>
-        <span>déjà lancés</span>
-      </div>
-      <div class="stat">
-        <strong>4,9 / 5</strong>
-        <span>satisfaction client</span>
+
+      <div class="hero-card rv">
+        <div class="hero-card-title">Comment ça marche</div>
+        <div class="process-step">
+          <div class="step-num">01</div>
+          <div class="step-info">
+            <strong>Brief de 15 min</strong>
+            <span>On comprend ton activité et tes besoins</span>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">02</div>
+          <div class="step-info">
+            <strong>Devis écrit sous 24h</strong>
+            <span>Prix fixe, sans surprise cachée</span>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">03</div>
+          <div class="step-info">
+            <strong>Design & intégration</strong>
+            <span>On crée tout, tu valides</span>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">04</div>
+          <div class="step-info">
+            <strong>Mise en ligne</strong>
+            <span>Ton site est live en 7 jours</span>
+          </div>
+        </div>
+        <div class="hero-card-foot">
+          <div class="live-dot"></div>
+          <span>Disponible pour de nouveaux projets</span>
+        </div>
       </div>
     </div>
   </div>
 </header>
 
-<!-- ====== PROBLEM / SOLUTION ====== -->
-<section class="problem">
+<!-- ═══ PROBLÈME / SOLUTION ═══ -->
+<section>
   <div class="wrap">
-    <div class="problem-card reveal">
-      <div class="problem-side">
-        <span class="problem-tag">Le problème</span>
+    <div class="prob-grid rv">
+      <div class="prob-side">
+        <div class="prob-label">Le problème</div>
         <h3>Tu n'as pas de site ? Tes concurrents, eux, en ont un.</h3>
-        <p>Aujourd'hui, 8 clients sur 10 cherchent un commerce sur Google avant de pousser la porte. Pas de site = pas de visibilité = pas de nouveaux clients.</p>
+        <p>8 clients sur 10 cherchent un commerce sur Google avant de se déplacer. Sans site, tu n'existes pas en ligne — et tu perds ces clients au profit de la concurrence.</p>
       </div>
-      <div class="problem-side solution">
-        <span class="problem-tag">La solution</span>
-        <h3>Un site pro, en ligne en 7 jours. Sans toucher au technique.</h3>
-        <p>On s'occupe de tout : design, textes, photos, hébergement, mise en ligne. Tu te concentres sur ton métier, on s'occupe du reste.</p>
+      <div class="prob-side sol">
+        <div class="prob-label">La solution</div>
+        <h3>Un site pro en ligne en 7 jours. Tu n'as rien à faire de technique.</h3>
+        <p>On gère tout : design, textes, hébergement, mise en ligne. Tu te concentres sur ton métier. Résultat : de nouveaux clients qui te trouvent sur Google, 24h/24.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ====== OFFERS ====== -->
+<!-- ═══ OFFRES ═══ -->
 <section id="offres">
   <div class="wrap">
-    <div class="section-head">
-      <span class="eyebrow"><span class="dot"></span>Nos offres</span>
-      <h2>Trois formules. Une seule promesse : tu es en ligne, vite et bien.</h2>
-      <p>Choisis l'offre qui colle à ton activité. Tous les prix sont clairs, fixes, sans abonnement caché.</p>
+    <div class="sec-head rv">
+      <span class="tag"><span class="dot"></span>Nos offres</span>
+      <h2>Trois formules. Un seul objectif : te faire trouver en ligne.</h2>
+      <p>Prix fixes, délais tenus, zéro abonnement piège. Tu sais exactement ce que tu paies.</p>
     </div>
+    <div class="bento">
 
-    <div class="offers-grid">
-      <!-- Offer 1 -->
-      <article class="offer reveal" onmousemove="this.style.setProperty('--mx',event.offsetX+'px')">
-        <span class="offer-badge">À partir de 490€</span>
-        <div class="offer-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 9h18"/><circle cx="6.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="9" cy="6.5" r=".5" fill="currentColor"/></svg>
+      <article class="bento-card rv" onmousemove="moveGlow(event,this)">
+        <span class="card-badge">490€</span>
+        <div class="card-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18"/><circle cx="7" cy="6" r=".5" fill="currentColor"/><circle cx="10" cy="6" r=".5" fill="currentColor"/></svg>
         </div>
         <h3>Site Vitrine</h3>
-        <div class="price">Idéal pour <strong>exister sur Google</strong></div>
-        <p>Pour présenter ton activité et tes coordonnées. Parfait pour rassurer tes clients avant qu'ils poussent ta porte.</p>
-        <ul>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Design sur mesure</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> 100% responsive</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Formulaire de contact</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Hébergement inclus 1 an</li>
+        <div class="price">Pour <strong>exister sur Google</strong></div>
+        <p>Présente ton activité, tes horaires et tes coordonnées. Tes clients te trouvent et te font confiance avant même de pousser ta porte.</p>
+        <ul class="feats">
+          <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Design sur mesure</li>
+          <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>100% responsive</li>
+          <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Formulaire de contact</li>
+          <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Hébergement 1 an inclus</li>
         </ul>
-        <div class="offer-cta">En savoir plus <span class="arr">→</span></div>
+        <div class="card-link">En savoir plus <span class="arr">→</span></div>
       </article>
 
-      <!-- Offer 2 -->
-      <article class="offer featured reveal" onmousemove="this.style.setProperty('--mx',event.offsetX+'px')">
-        <span class="offer-badge">Le plus demandé</span>
-        <div class="offer-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 7v6c0 4.4 3.4 8.5 8 9 4.6-.5 8-4.6 8-9V7l-8-5z"/><path d="m9 12 2 2 4-4"/></svg>
+      <article class="bento-card featured rv" onmousemove="moveGlow(event,this)">
+        <span class="card-badge">Le plus demandé</span>
+        <div class="card-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
         </div>
         <h3>Landing Page</h3>
-        <div class="price">Idéale pour <strong>convertir</strong></div>
-        <p>Une page unique pensée pour transformer les visiteurs en clients. Parfaite pour une promo, un lancement ou une campagne.</p>
-        <ul>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Copywriting optimisé</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Appel à l'action clair</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Suivi des conversions</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Résultats mesurables</li>
+        <div class="price">Pour <strong>convertir tes visiteurs</strong></div>
+        <p>Une page unique pensée pour transformer les visiteurs en clients. Idéale pour une promo, un lancement ou une campagne publicitaire.</p>
+        <ul class="feats">
+          <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Copywriting optimisé</li>
+          <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>CTA stratégiques</li>
+          <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Suivi des conversions</li>
+          <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Résultats mesurables</li>
         </ul>
-        <div class="offer-cta">En savoir plus <span class="arr">→</span></div>
+        <div class="card-link">En savoir plus <span class="arr">→</span></div>
       </article>
 
-      <!-- Offer 3 -->
-      <article class="offer reveal" onmousemove="this.style.setProperty('--mx',event.offsetX+'px')">
-        <span class="offer-badge">À partir de 1 490€</span>
-        <div class="offer-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M3 4h2l2.7 12.4a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.6L21 8H6"/></svg>
+      <article class="bento-card rv" onmousemove="moveGlow(event,this)">
+        <span class="card-badge">1 490€</span>
+        <div class="card-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M3 4h2l2.6 12.4a2 2 0 0 0 2 1.6h7.8a2 2 0 0 0 2-1.6L21 8H6"/></svg>
         </div>
         <h3>Site E-commerce</h3>
         <div class="price">Pour <strong>vendre 24h/24</strong></div>
-        <p>Pour vendre tes produits en ligne, sans limite d'horaire. Catalogue, panier, paiement sécurisé, livraison.</p>
-        <ul>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Solution clé en main</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Paiement sécurisé Stripe</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Formation 1h incluse</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Support technique 3 mois</li>
+        <p>Catalogue produits, panier, paiement sécurisé. Vends en ligne sans limite d'horaire, avec une solution clé en main et une formation incluse.</p>
+        <ul class="feats">
+          <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Paiement Stripe sécurisé</li>
+          <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Catalogue produits</li>
+          <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Formation 1h incluse</li>
+          <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Support 3 mois</li>
         </ul>
-        <div class="offer-cta">En savoir plus <span class="arr">→</span></div>
+        <div class="card-link">En savoir plus <span class="arr">→</span></div>
       </article>
+
     </div>
   </div>
 </section>
 
-<!-- ====== WHY US ====== -->
+<!-- ═══ POURQUOI NOUS ═══ -->
 <section id="pourquoi">
   <div class="wrap">
-    <div class="section-head">
-      <span class="eyebrow"><span class="dot"></span>Pourquoi nous</span>
-      <h2>Pas de blabla. Du concret, vite livré.</h2>
-      <p>On bosse avec des commerçants tous les jours. On sait ce qui marche, ce qui prend la tête, et ce qu'il faut éviter.</p>
-    </div>
-
-    <div class="why-grid">
-      <div class="why-card reveal">
-        <div class="why-num">01 — Vitesse</div>
-        <h4>Livré en 7 jours</h4>
-        <p>Pas 3 mois d'attente. Tu nous brieffes le lundi, ton site est en ligne le lundi suivant.</p>
+    <div class="why-bg rv">
+      <div class="sec-head" style="margin-bottom:48px">
+        <span class="tag"><span class="dot"></span>Pourquoi nous</span>
+        <h2>Ce qui nous différencie des grosses agences.</h2>
+        <p>On travaille avec des commerçants tous les jours. On sait ce qui marche, ce qui prend la tête, et comment aller à l'essentiel.</p>
       </div>
-      <div class="why-card reveal">
-        <div class="why-num">02 — Accompagnement</div>
-        <h4>Un interlocuteur unique</h4>
-        <p>Pas d'agence à 12 commerciaux. Une personne qui te connaît, du devis au lancement.</p>
-      </div>
-      <div class="why-card reveal">
-        <div class="why-num">03 — Tarifs</div>
-        <h4>Prix fixes, sans surprise</h4>
-        <p>Devis clair en moins de 24h. Pas de coût caché, pas d'abonnement piège.</p>
-      </div>
-      <div class="why-card reveal">
-        <div class="why-num">04 — Simplicité</div>
-        <h4>Zéro jargon technique</h4>
-        <p>On parle français, pas SEO-CMS-SaaS. Tu comprends tout, tu décides en confiance.</p>
+      <div class="why-grid">
+        <div class="why-item rv">
+          <div class="why-n">01 — Vitesse</div>
+          <h4>Livré en 7 jours</h4>
+          <p>Brief le lundi, site en ligne le lundi suivant. Pas 3 mois d'attente et de réunions inutiles.</p>
+        </div>
+        <div class="why-item rv">
+          <div class="why-n">02 — Clarté</div>
+          <h4>Prix fixes, sans surprise</h4>
+          <p>Devis écrit sous 24h. Tu sais exactement ce que tu paies. Pas d'abonnement piège ni de frais cachés.</p>
+        </div>
+        <div class="why-item rv">
+          <div class="why-n">03 — Proximité</div>
+          <h4>Un interlocuteur unique</h4>
+          <p>Une personne qui te connaît, du premier contact jusqu'à la mise en ligne. Pas de call center.</p>
+        </div>
+        <div class="why-item rv">
+          <div class="why-n">04 — Simplicité</div>
+          <h4>Zéro jargon</h4>
+          <p>On parle français, pas SEO-CMS-API. Tu comprends tout, tu décides en confiance.</p>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ====== TESTIMONIALS ====== -->
-<section id="temoignages">
+<!-- ═══ TÉMOIGNAGES ═══ -->
+<section id="avis">
   <div class="wrap">
-    <div class="section-head">
-      <span class="eyebrow"><span class="dot"></span>Témoignages</span>
+    <div class="sec-head center rv">
+      <span class="tag" style="margin:0 auto"><span class="dot"></span>Avis clients</span>
       <h2>Ce qu'en disent les commerçants qu'on a accompagnés.</h2>
     </div>
-
-    <div class="testimonials-grid">
-      <article class="testimonial reveal">
+    <div class="testi-grid">
+      <article class="testi rv">
         <div class="stars">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
         </div>
-        <blockquote>En 10 jours mon restaurant était en ligne avec un menu propre et un système de réservation. Mes clients me disent enfin qu'ils me trouvent sur Google.</blockquote>
-        <div class="author">
+        <blockquote>En 10 jours mon restaurant était en ligne avec un menu propre. Mes clients me disent enfin qu'ils me trouvent sur Google. Ça change vraiment la donne.</blockquote>
+        <div class="testi-author">
           <div class="avatar">M</div>
-          <div class="author-info">
-            <strong>Marc D.</strong>
-            <span>Restaurant — Lyon</span>
+          <div>
+            <span class="author-name">Marc D.</span>
+            <span class="author-role">Restaurant — Lyon</span>
           </div>
         </div>
       </article>
 
-      <article class="testimonial reveal">
+      <article class="testi rv">
         <div class="stars">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
         </div>
-        <blockquote>J'ai un salon de coiffure, pas un master en informatique. Ils ont tout fait, et m'ont expliqué simplement comment gérer mes rendez-vous. Le rêve.</blockquote>
-        <div class="author">
+        <blockquote>J'ai un salon, pas un master en informatique. Ils ont tout fait et m'ont expliqué simplement comment gérer mes rendez-vous. Vraiment au top.</blockquote>
+        <div class="testi-author">
           <div class="avatar" style="background:linear-gradient(135deg,#f472b6,#8b5cf6)">S</div>
-          <div class="author-info">
-            <strong>Sophie L.</strong>
-            <span>Salon de coiffure — Bordeaux</span>
+          <div>
+            <span class="author-name">Sophie L.</span>
+            <span class="author-role">Salon de coiffure — Bordeaux</span>
           </div>
         </div>
       </article>
 
-      <article class="testimonial reveal">
+      <article class="testi rv">
         <div class="stars">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
         </div>
-        <blockquote>Mon site e-commerce de poteries tourne tout seul depuis 6 mois. Je vends même la nuit ! Le rapport qualité-prix est imbattable.</blockquote>
-        <div class="author">
-          <div class="avatar" style="background:linear-gradient(135deg,#5b8def,#8b5cf6)">K</div>
-          <div class="author-info">
-            <strong>Karim B.</strong>
-            <span>Artisan céramiste — Toulouse</span>
+        <blockquote>Mon site e-commerce tourne tout seul depuis 6 mois. Je vends même la nuit ! Le rapport qualité-prix est imbattable pour une petite boutique comme la mienne.</blockquote>
+        <div class="testi-author">
+          <div class="avatar" style="background:linear-gradient(135deg,#6366f1,#8b5cf6)">K</div>
+          <div>
+            <span class="author-name">Karim B.</span>
+            <span class="author-role">Artisan céramiste — Toulouse</span>
           </div>
         </div>
       </article>
@@ -638,87 +548,109 @@
   </div>
 </section>
 
-<!-- ====== FAQ ====== -->
+<!-- ═══ FAQ ═══ -->
 <section id="faq">
   <div class="wrap">
-    <div class="section-head" style="margin-inline:auto;text-align:center">
-      <span class="eyebrow" style="margin:0 auto"><span class="dot"></span>FAQ</span>
-      <h2>Les questions que tu te poses (sûrement).</h2>
+    <div class="sec-head center rv">
+      <span class="tag" style="margin:0 auto"><span class="dot"></span>FAQ</span>
+      <h2>Les questions qu'on nous pose souvent.</h2>
     </div>
-
-    <div class="faq-list">
-      <details class="faq-item reveal" open>
-        <summary>Combien ça va vraiment me coûter ?<span class="plus">+</span></summary>
-        <div class="faq-content">
-          Nos prix démarrent à 490€ pour un site vitrine, 790€ pour une landing page, et 1 490€ pour un e-commerce. Tout est inclus : design, intégration, mise en ligne, hébergement la première année. Pas d'abonnement piège, pas de frais cachés. Devis écrit en moins de 24h.
-        </div>
+    <div class="faq-wrap">
+      <details class="faq rv" open>
+        <summary>Combien ça coûte vraiment ?<span class="faq-plus"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></summary>
+        <div class="faq-body">490€ pour un site vitrine, 790€ pour une landing page, 1 490€ pour un e-commerce. Tout inclus : design, intégration, hébergement la première année. Aucun frais caché, aucun abonnement obligatoire. Devis écrit en moins de 24h.</div>
       </details>
-      <details class="faq-item reveal">
-        <summary>En combien de temps mon site sera en ligne ?<span class="plus">+</span></summary>
-        <div class="faq-content">
-          7 jours en moyenne pour un site vitrine, 10 jours pour une landing page, et 3 semaines pour un e-commerce. À condition que tu nous fournisses tes textes et photos rapidement — on peut aussi t'aider pour ça.
-        </div>
+      <details class="faq rv">
+        <summary>En combien de temps mon site sera en ligne ?<span class="faq-plus"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></summary>
+        <div class="faq-body">7 jours pour un site vitrine, 10 jours pour une landing page, 3 semaines pour un e-commerce. À condition que tu nous fournisses tes textes et photos — sinon, on peut t'aider pour ça aussi.</div>
       </details>
-      <details class="faq-item reveal">
-        <summary>Et si je veux modifier mon site plus tard ?<span class="plus">+</span></summary>
-        <div class="faq-content">
-          Deux options : tu nous demandes (forfait à l'heure, sans engagement), ou on te forme à faire les modifications simples toi-même (changer un texte, ajouter une photo). C'est inclus dans toutes nos offres.
-        </div>
+      <details class="faq rv">
+        <summary>Et si je veux modifier mon site plus tard ?<span class="faq-plus"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></summary>
+        <div class="faq-body">Deux options : tu nous demandes une modif (tarif horaire, sans engagement), ou on te forme à faire les modifications simples toi-même. La formation basique est incluse dans toutes nos offres.</div>
       </details>
-      <details class="faq-item reveal">
-        <summary>Mon site apparaîtra-t-il sur Google ?<span class="plus">+</span></summary>
-        <div class="faq-content">
-          Oui. Tous nos sites sont optimisés pour le référencement local (SEO) dès la livraison : balises, vitesse, structure, mots-clés ciblés sur ta zone géographique. On configure aussi ta fiche Google Business gratuitement.
-        </div>
+      <details class="faq rv">
+        <summary>Mon site apparaîtra-t-il sur Google ?<span class="faq-plus"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></summary>
+        <div class="faq-body">Oui. Tous nos sites sont optimisés pour le référencement local dès la livraison. On configure aussi ta fiche Google Business gratuitement — c'est souvent ce qui ramène les premiers clients.</div>
       </details>
-      <details class="faq-item reveal">
-        <summary>Je n'ai ni textes, ni photos. C'est un problème ?<span class="plus">+</span></summary>
-        <div class="faq-content">
-          Pas du tout. On peut rédiger les textes pour toi (option +150€) et on travaille avec un photographe local si tu veux des vraies photos pro de ton commerce. Sinon, on utilise des visuels élégants et neutres en attendant.
-        </div>
+      <details class="faq rv">
+        <summary>Je n'ai ni textes ni photos. C'est bloquant ?<span class="faq-plus"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span></summary>
+        <div class="faq-body">Pas du tout. On peut rédiger les textes pour toi (+150€) et on travaille avec un photographe partenaire si tu veux de vraies photos pro. Sinon on utilise des visuels soignés en attendant.</div>
       </details>
     </div>
   </div>
 </section>
 
-<!-- ====== FINAL CTA ====== -->
-<section class="final-cta" id="contact">
+<!-- ═══ CONTACT ═══ -->
+<section id="contact" style="padding-bottom:clamp(72px,8vw,120px)">
   <div class="wrap">
-    <div class="final-cta-card reveal">
-      <span class="eyebrow" style="margin:0 auto"><span class="dot"></span>On en parle ?</span>
-      <h2>Discutons de ton projet, sans engagement.</h2>
-      <p>15 minutes au téléphone pour comprendre ton activité et te proposer la formule qui te convient. Devis écrit envoyé sous 24h.</p>
-
-      <form id="contact-form" style="max-width:520px;margin:0 auto;display:flex;flex-direction:column;gap:12px;text-align:left">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-          <input required name="prenom" placeholder="Ton prénom" style="padding:14px 18px;border-radius:12px;background:rgba(255,255,255,0.04);border:1px solid var(--border-strong);color:var(--text);font:inherit;outline:none" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border-strong)'">
-          <input required name="email" type="email" placeholder="Ton email" style="padding:14px 18px;border-radius:12px;background:rgba(255,255,255,0.04);border:1px solid var(--border-strong);color:var(--text);font:inherit;outline:none" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border-strong)'">
+    <div class="cta-card rv">
+      <div class="cta-inner">
+        <div class="cta-left">
+          <span class="tag"><span class="dot"></span>On en parle ?</span>
+          <h2>Discutons de ton projet, sans engagement.</h2>
+          <p>15 minutes au téléphone pour comprendre ton activité et te proposer la formule qui te convient. Devis écrit sous 24h.</p>
+          <div class="cta-info">
+            <div class="cta-info-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.61 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.08 6.08l.97-.88a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              Réponse sous 24h ouvrées
+            </div>
+            <div class="cta-info-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              weber.agenceweb@gmail.com
+            </div>
+            <div class="cta-info-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Sans engagement, devis gratuit
+            </div>
+          </div>
         </div>
-        <textarea required name="projet" placeholder="Parle-nous de ton commerce et de ton projet" rows="3" style="padding:14px 18px;border-radius:12px;background:rgba(255,255,255,0.04);border:1px solid var(--border-strong);color:var(--text);font:inherit;outline:none;resize:vertical" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border-strong)'"></textarea>
-        <button type="submit" class="btn btn-primary" style="justify-content:center;margin-top:8px">Discutons de ton projet <span class="arr">→</span></button>
-      </form>
-      <div id="form-success" style="display:none;max-width:520px;margin:0 auto;padding:32px;border-radius:16px;background:rgba(139,92,246,0.08);border:1px solid rgba(139,92,246,0.3);text-align:center">
-        <div style="font-size:32px;margin-bottom:12px">✓</div>
-        <p style="font-size:18px;font-weight:600;margin-bottom:8px">Message bien reçu !</p>
-        <p style="color:var(--muted);font-size:15px">On te répond sous 24h. À très vite.</p>
+        <div class="cta-right">
+          <form id="contact-form">
+            <div class="form-row">
+              <div class="field">
+                <label>Prénom</label>
+                <input type="text" name="prenom" required placeholder="Jean">
+              </div>
+              <div class="field">
+                <label>Email</label>
+                <input type="email" name="email" required placeholder="jean@moncommerce.fr">
+              </div>
+            </div>
+            <div class="field">
+              <label>Ton commerce</label>
+              <input type="text" name="commerce" required placeholder="Restaurant, coiffeur, boutique…">
+            </div>
+            <div class="field">
+              <label>Ton projet</label>
+              <textarea name="projet" required placeholder="Dis-nous ce que tu veux : site vitrine, boutique en ligne, landing page…"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary form-submit">Discutons de ton projet <span class="arr">→</span></button>
+          </form>
+          <div id="form-success" class="form-success">
+            <div class="check">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <h3>Message bien reçu !</h3>
+            <p>On te répond dans les 24h. À très vite.</p>
+          </div>
+        </div>
       </div>
-      <p style="font-size:13px;color:var(--dim);margin-top:24px;font-family:'DM Mono',monospace">Réponse garantie sous 24h ouvrées · Sans engagement</p>
     </div>
   </div>
 </section>
 
-<!-- ====== FOOTER ====== -->
+<!-- ═══ FOOTER ═══ -->
 <footer>
   <div class="wrap">
-    <div class="footer-grid">
-      <div class="footer-brand">
+    <div class="foot-grid">
+      <div class="foot-brand">
         <a href="#" class="logo">
-          <span class="logo-mark">W</span>
-          <span>Weber</span>
+          <div class="logo-w">W</div>
+          Weber
         </a>
-        <p>Sites web simples, beaux et efficaces pour les commerces locaux. Basés en France.</p>
+        <p>Sites web pour commerces locaux. Simple, rapide, efficace.</p>
       </div>
-      <div class="footer-col">
+      <div class="foot-col">
         <h5>Offres</h5>
         <ul>
           <li><a href="#offres">Site vitrine</a></li>
@@ -726,83 +658,85 @@
           <li><a href="#offres">E-commerce</a></li>
         </ul>
       </div>
-      <div class="footer-col">
+      <div class="foot-col">
         <h5>Agence</h5>
         <ul>
           <li><a href="#pourquoi">Pourquoi nous</a></li>
-          <li><a href="#temoignages">Témoignages</a></li>
+          <li><a href="#avis">Avis clients</a></li>
           <li><a href="#faq">FAQ</a></li>
         </ul>
       </div>
-      <div class="footer-col">
+      <div class="foot-col">
         <h5>Contact</h5>
         <ul>
-          <li><a href="mailto:hello@weber.fr">hello@weber.fr</a></li>
+          <li><a href="mailto:weber.agenceweb@gmail.com">weber.agenceweb@gmail.com</a></li>
           <li><a href="#contact">Demander un devis</a></li>
         </ul>
       </div>
     </div>
-    <div class="footer-bot">
+    <div class="foot-bot">
       <span>© 2026 Weber — Tous droits réservés</span>
-      <span>Mentions légales · CGV · Politique de confidentialité</span>
+      <span>Mentions légales · CGV · Confidentialité</span>
     </div>
   </div>
 </footer>
 
 <script>
-  /* Scroll reveal via IntersectionObserver */
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('in');
-        io.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+/* ── Reveal au scroll ── */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)} });
+},{threshold:.1,rootMargin:'0px 0px -32px 0px'});
+document.querySelectorAll('.rv').forEach(el => io.observe(el));
 
-  /* Mousemove glow on offer cards */
-  document.querySelectorAll('.offer').forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-      const r = card.getBoundingClientRect();
-      card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+/* ── Glow cards ── */
+function moveGlow(e, card){
+  const r = card.getBoundingClientRect();
+  card.style.setProperty('--mx',(e.clientX-r.left)+'px');
+  card.style.setProperty('--my',(e.clientY-r.top)+'px');
+}
+
+/* ── Menu mobile ── */
+function toggleMenu(){
+  const m = document.getElementById('mobMenu');
+  m.classList.toggle('open');
+}
+
+/* ── Ferme menu sur lien externe ── */
+document.querySelectorAll('.nav-links a').forEach(a => {
+  a.addEventListener('click', () => document.getElementById('mobMenu').classList.remove('open'));
+});
+
+/* ── FormSubmit.co ── */
+const form = document.getElementById('contact-form');
+const succ = document.getElementById('form-success');
+if(form){
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const btn = form.querySelector('button[type="submit"]');
+    btn.disabled = true;
+    btn.innerHTML = 'Envoi en cours…';
+    const fd = new FormData(form);
+    fetch('https://formsubmit.co/ajax/weber.agenceweb@gmail.com',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify({
+        Prénom: fd.get('prenom'),
+        Email: fd.get('email'),
+        Commerce: fd.get('commerce'),
+        Projet: fd.get('projet'),
+        _subject: 'Nouveau projet Weber — demande de devis',
+        _captcha: 'false'
+      })
+    })
+    .then(r=>r.json())
+    .then(()=>{ form.style.display='none'; succ.style.display='block' })
+    .catch(()=>{
+      btn.disabled=false;
+      btn.innerHTML='Discutons de ton projet <span class="arr">→</span>';
+      alert('Erreur. Écris-nous à weber.agenceweb@gmail.com');
     });
   });
-
-  /* FormSubmit.co — envoi email sans backend */
-  const form = document.getElementById('contact-form');
-  const success = document.getElementById('form-success');
-  if (form) {
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const btn = form.querySelector('button[type="submit"]');
-      btn.disabled = true;
-      btn.innerHTML = 'Envoi en cours…';
-      const data = new FormData(form);
-      fetch('https://formsubmit.co/ajax/Weber.agenceweb@gmail.com', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({
-          Prénom: data.get('prenom'),
-          Email: data.get('email'),
-          Projet: data.get('projet'),
-          _subject: 'Nouveau projet Weber — demande de devis',
-          _captcha: 'false'
-        })
-      })
-      .then(r => r.json())
-      .then(() => {
-        form.style.display = 'none';
-        success.style.display = 'block';
-      })
-      .catch(() => {
-        btn.disabled = false;
-        btn.innerHTML = 'Discutons de ton projet <span class="arr">→</span>';
-        alert('Une erreur est survenue. Écris-nous directement à Weber.agenceweb@gmail.com');
-      });
-    });
-  }
+}
 </script>
-
 </body>
 </html>
