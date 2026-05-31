@@ -716,16 +716,17 @@ if(form){
     btn.disabled = true;
     btn.innerHTML = 'Envoi en cours…';
     const fd = new FormData(form);
-    fetch('https://formsubmit.co/ajax/weber.agenceweb@gmail.com',{
+    fetch('https://api.web3forms.com/submit',{
       method:'POST',
       headers:{'Content-Type':'application/json','Accept':'application/json'},
       body:JSON.stringify({
+        access_key: '5cb6f683-eea1-4810-8df6-10e72306bebc',
+        subject: 'Nouveau projet Weber — demande de devis',
+        from_name: 'Weber Site',
         Prénom: fd.get('prenom'),
         Email: fd.get('email'),
         Commerce: fd.get('commerce'),
-        Projet: fd.get('projet'),
-        _subject: 'Nouveau projet Weber — demande de devis',
-        _captcha: 'false'
+        Projet: fd.get('projet')
       })
     })
     .then(r=>r.json())
