@@ -634,8 +634,8 @@ footer{border-top:1px solid var(--border);padding:clamp(48px,5vw,72px) 0 32px;ba
             <div class="check">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
             </div>
-            <h3>Message bien reçu !</h3>
-            <p>On te répond dans les 24h. À très vite.</p>
+            <h3>Merci, votre demande a bien été envoyée.</h3>
+            <p>Nous vous recontactons sous 24h.</p>
           </div>
         </div>
       </div>
@@ -710,7 +710,7 @@ document.querySelectorAll('.nav-links a').forEach(a => {
   a.addEventListener('click', () => document.getElementById('mobMenu').classList.remove('open'));
 });
 
-/* ── FormSubmit.co ── */
+/* ── Formspree ── */
 const form = document.getElementById('contact-form');
 const succ = document.getElementById('form-success');
 if(form){
@@ -719,22 +719,18 @@ if(form){
     const btn = form.querySelector('button[type="submit"]');
     btn.disabled = true;
     btn.innerHTML = 'Envoi en cours…';
-    const fd = new FormData(form);
-    fetch('https://api.web3forms.com/submit',{
+    fetch('https://formspree.io/f/mkoangyz',{
       method:'POST',
-      headers:{'Content-Type':'application/json','Accept':'application/json'},
-      body:JSON.stringify({
-        access_key: '5cb6f683-eea1-4810-8df6-10e72306bebc',
-        subject: 'Nouveau projet Weber — demande de devis',
-        from_name: 'Weber Site',
-        Prénom: fd.get('prenom'),
-        Email: fd.get('email'),
-        Commerce: fd.get('commerce'),
-        Projet: fd.get('projet')
-      })
+      headers:{'Accept':'application/json'},
+      body: new FormData(form)
     })
     .then(r=>r.json())
-    .then(()=>{ form.style.display='none'; succ.style.display='block' })
+    .then(data=>{
+      if(data.ok){
+        form.style.display='none';
+        succ.style.display='block';
+      } else { throw new Error(); }
+    })
     .catch(()=>{
       btn.disabled=false;
       btn.innerHTML='Discutons de ton projet <span class="arr">→</span>';
